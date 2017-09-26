@@ -11,7 +11,7 @@ def get_upload_url(instance , filename):
 
 
 class  UserProfile(models.Model):
-	user = models.OneToOneField(User , on_delete = models.CASCADE , primary_key = True)
+	user = models.OneToOneField(User , on_delete = models.CASCADE , primary_key = True , related_name = 'profile')
 	mobileNumber = models.IntegerField(default = 0)
 	avatar = models.ImageField(upload_to = get_upload_url , default = '/static/UserProfile/defaultProfileImage.png' )
 
