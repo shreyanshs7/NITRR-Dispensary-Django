@@ -16,7 +16,7 @@ def UserProfileCreationAPIView(request):
 		
 		username = data['user']['username']
 		password = data['user']['password']
-		email = data['user']['username']
+		email = data['user']['email']
 		first_name = data['user']['first_name']
 		last_name = data['user']['last_name']
 		mobileNumber = data['mobileNumber']
@@ -35,8 +35,39 @@ def UserProfileCreationAPIView(request):
 
 
 		return HttpResponse(jwt_encode)
+
+
+
+
+@csrf_exempt
+def UserProfileDetailAPIView(request):
+	if request.method == 'POST':
+		data = json.loads(request.body)
+		jwt_token = data.pop('token')
+		token_payload = jwt.decode(jwt_token , 'secret_key' , algorithm = 'HS256')
+		return HttpResponse(str(token_payload))
+
+@csrf_exempt
+def UserProfileDeleteAPIView(request):
+	if request.method == 'POST':
+		data = json.loads(request.body)
+		jwt_token = data.pop('token')
+		token_payload = jwt.decode(jwt_token , 'secret_key' , algorithm = 'HS256')
+		username = token_payload['user']['username']
+		user = User.objects.get(username = username)
+		user.delete()
+		return HttpResponse("User Deleted Successfully")
+
+
 		
-		
+
+
+			
+
+
+
+
+				
 		
 		
 
