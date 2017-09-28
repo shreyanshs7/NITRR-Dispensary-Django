@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'login_register',
     'SOS',
     'OTP',
+    'Appointment',
 ]
 
 MIDDLEWARE_CLASSES = [

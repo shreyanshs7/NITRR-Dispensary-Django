@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 import urllib2
 import random
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 @csrf_exempt
@@ -19,9 +19,21 @@ def send_otp(request):
 
 		response = urllib2.urlopen(send_otp_url).read()
 
-		
+		if response['type'] == 'success':
+			data = {
+				'success' : True,
+				'message' : "OTP sent successfully"
+			}		
 
-		return HttpResponse(response)
+		else:
+			data = {
+				'success' : False.
+				'message' : "OTP not sent"
+			}
+
+
+
+		return JsonResponse(data,safe=False)
 
 
 @csrf_exempt
@@ -36,4 +48,16 @@ def verify_otp(request):
 
 		response = urllib2.urlopen(verify_otp_url).read()
 
-		return HttpResponse(response)
+		if response['type'] == 'success':
+			data = {
+				"success" : True,
+				"message" : "Number verified"
+			}
+
+		else:
+			data = {
+				"success" : False,
+				"message" : "Number verification failed"
+			} 	
+
+		return JsonResponse(data,safe=False)
