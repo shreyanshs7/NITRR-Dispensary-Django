@@ -2,6 +2,9 @@
 from __future__ import unicode_literals
 from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render
+from django.contrib.auth.models import User
+from .models import *
+from login_register.models import *
 
 # Create your views here.
 def create_appointment(request):
@@ -31,3 +34,14 @@ def create_appointment(request):
 		}
 
 		return JsonResponse(data,safe=False)
+
+def show_appointment(request):
+
+	appointment_obj = AppointmentDetail.objects.all()
+
+	user_obj = UserDetail.objects.all()
+
+	return render(request,'Medz.html',{'users' : user_obj , 'appointments' : appointment_obj})
+
+
+

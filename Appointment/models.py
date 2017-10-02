@@ -13,6 +13,7 @@ class AppointmentDetail(models.Model):
 		)
 
 	name = models.CharField(max_length=120,blank=False)
+	username = models.CharField(max_length=120,blank=False,default="none")
 	medical_issue = models.CharField(max_length=200,blank=False)
 	issue_type = models.CharField(max_length=120,choices=ISSUE_TYPE)
 	date = models.DateField(auto_now=True)

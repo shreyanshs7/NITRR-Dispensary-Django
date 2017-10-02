@@ -1,16 +1,7 @@
 from django.conf.urls import url
-from .views import (
-		UserProfileCreationAPIView,
-		UserProfileDetailAPIView,
-		UserProfileDeleteAPIView,
-		UserProfileUpdateAPIView,
-
-	)
-
+from .views import *
 
 urlpatterns = [
-	url(r'^registeration/$' , UserProfileCreationAPIView , name = 'UserProfileCreationAPIView'),
-	url(r'^detail/$' , UserProfileDetailAPIView , name = 'UserProfileDetailAPIView'),
-	url(r'^delete/$' , UserProfileDeleteAPIView , name = 'UserProfileDeleteAPIView'),
-	url(r'^update/$' , UserProfileUpdateAPIView , name = 'UserProfileDeleteAPIView'),
+		url(r'^register/$' , register , name = 'register'),
+		url(r'^detail/$' , detail , name = 'detail'),
 ]

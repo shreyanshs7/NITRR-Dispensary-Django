@@ -27,7 +27,7 @@ def send_otp(request):
 
 		else:
 			data = {
-				'success' : False.
+				'success' : False,
 				'message' : "OTP not sent"
 			}
 
