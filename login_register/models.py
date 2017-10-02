@@ -10,7 +10,6 @@ class UserDetail(models.Model):
 	name = models.CharField(max_length=120)
 	username = models.CharField(max_length=120)
 	mobile_number = models.IntegerField()
-	email = models.CharField(max_length=120)
-	age = models.IntegerField(default=18)
+	blood = models.CharField(max_length=12,default="A+")
 
 	

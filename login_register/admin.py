@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 
 class UserDetailAdmin(admin.ModelAdmin):
-	list_display = ['username','age','mobile_number','email']
+	list_display = ['username','blood','mobile_number']
 
 admin.site.register(UserDetail,UserDetailAdmin)	
 	

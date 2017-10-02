@@ -8,32 +8,118 @@ import json
 import jwt
 from Appointment.models import *
 from django.core import serializers
+from .models import *
+import random
+import urllib2
+from django.contrib.auth import authenticate
 
 
+@csrf_exempt
+def login(request):
+	if request.method == "POST":
 
+		username = request.POST.get("username")
+		password = request.POST.get("password")
+
+		#user = authenticate(username=username, password=password)
+
+		user = User.objects.get(username=username)
+
+		if user.check_password(password): 
+
+			user_detail_obj = UserDetail.objects.get(username=user)
+
+			mobile_number = user_detail_obj.mobile_number
+
+			jwt_data = {
+				'username' : user.username,
+				'mobile_number' : mobile_number
+		     }
+
+		   	token = jwt.encode(jwt_data , SECRET_KEY , algorithm='HS256')
+
+			
+
+			data = {
+				"success" : True,
+				"message" : "User authenticated",
+				'token' : token
+			}
+
+			return JsonResponse(data,safe=False)
+		else:
+			
+			data = {
+				"success" : False,
+				"message" : "Invalid credentials"
+ 			}
+
+ 			return JsonResponse(data,safe=False)
+
+		
+
+		
+
+
+@csrf_exempt
 def register(request):
 	if request.method == "POST":
 
 		name = request.POST.get('name')
 		username = request.POST.get('username')
 		mobile_number = request.POST.get('mobile_number')
-		email = request.POST.get('email')
-		age = request.POST.get('age')
+		password = request.POST.get('password')
+		blood = request.POST.get('blood')
 
-		data = {
-			'username' : username,
-			'mobile_number' : mobile_number
-		}
+		if User.objects.filter(username=username).exists():
+			data = {
+			"success" : False,
+			"message" : "Username already exists"
+			}
 
-		token = jwt.encode(data , SECRET_KEY , algorithms=['HS256'] )
+			return JsonResponse(data,safe=False)
 
-		data = {
-			'success' : True ,
-			'message' : "User registered",
-			'token' : token
-		}
+		else:
 
-		return JsonResponse(data,safe=False)
+			user_detail = UserDetail.objects.create(
+				name=name,
+				username=username,
+				mobile_number=mobile_number,
+				blood=blood
+				)
+			user_detail.save()
+
+			user_obj = User.objects.create_user(
+				username=username,
+				password=password
+				)
+			user_obj.save()
+
+
+			auth_key = "176332A81pH4L759c8aad6"
+			sender_id = "CodeCSE"
+			otp = random.randint(2000,9999)
+
+			send_otp_url = "https://control.msg91.com/api/sendotp.php?authkey="+auth_key+"&mobile=91"+str(mobile_number)+"&message=Your%20otp%20is%20"+str(otp)+"&sender="+sender_id+"&otp="+str(otp)+""
+
+			response = urllib2.urlopen(send_otp_url).read()
+
+
+
+			jwt_data = {
+				'username' : username,
+				'mobile_number' : mobile_number
+			}
+
+			token = jwt.encode(jwt_data , SECRET_KEY , algorithm='HS256' )
+
+			data = {
+				'success' : True ,
+				'message' : "User registered",
+				'token' : token
+			}
+
+			return JsonResponse(data,safe=False)
 
 
 @csrf_exempt

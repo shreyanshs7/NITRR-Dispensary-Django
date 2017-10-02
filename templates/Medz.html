@@ -124,7 +124,7 @@
           <li class="collection-item avatar">
               <i class="material-icons circle">person</i>
               <span class="title">{{ user.name }} </span>
-              <button  class="right" value="{{ user.username }}">Details <i class="material-icons">visibility</i></button>
+              <button  class="right btn green" value="{{ user.username }}">Details</button>
               <p>{{ user.age }} <br>
 
                   {{ user.mobile_number }}
@@ -200,7 +200,7 @@
         <div class="row">
         {% for app in appointments %}
 
-          <a class="modal-trigger" href="#detail-{{ app.name }}-{{ app.time }}">
+          <a class="modal-trigger" href="#detail-{{ app.id }}">
             <div class="col s12 m3">
               <div class="card blue darken-3 hoverable">
                 <div class="card-content white-text">
@@ -215,12 +215,12 @@
           </a>
          {% endfor %} 
         </div>
-       
+             
        
       </div>
 
       {% for app in appointments %}
-        <div id="detail-{{ app.name }}-{{ app.time }}" class="modal modal-fixed-footer">
+        <div id="detail-{{ app.id }}" class="modal modal-fixed-footer">
           <div class="modal-content center">
             <h4>{{ app.name }}</h4>
             <br>

@@ -5,6 +5,7 @@ import urllib2
 import random
 from django.http import HttpResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+import json
 # Create your views here.
 @csrf_exempt
 def send_otp(request):
@@ -44,9 +45,20 @@ def verify_otp(request):
 		auth_key = "176332A81pH4L759c8aad6"
 		mobile_number = request.POST.get("number")
 
-		verify_otp_url = "https://control.msg91.com/api/verifyRequestOTP.php?authkey="+auth_key+"&mobile=91"+mobile_number+"&otp="+str(otp)+""
+		print(mobile_number)
+
+		token = request.POST.get("token")
+
+		print(token)
+
+		verify_otp_url = "https://control.msg91.com/api/verifyRequestOTP.php?authkey="+auth_key+"&mobile=91"+str(mobile_number)+"&otp="+str(otp)+""
 
 		response = urllib2.urlopen(verify_otp_url).read()
+
+		response = json.loads(response)
+		print(response)	
+
+
 
 		if response['type'] == 'success':
 			data = {
