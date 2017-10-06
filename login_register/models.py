@@ -4,22 +4,12 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.core.validators import RegexValidator
 
+	
 
+class UserDetail(models.Model):
+	name = models.CharField(max_length=120)
+	username = models.CharField(max_length=120)
+	mobile_number = models.IntegerField()
+	blood = models.CharField(max_length=12,default="A+")
 
-def get_upload_url(instance , filename):
-	return 'UserProfileImages/%s/%s'%(instance.user.username , filename)
-
-
-class  UserProfile(models.Model):
-	user = models.OneToOneField(User , on_delete = models.CASCADE , primary_key = True)
-	mobileNumber = models.IntegerField(default = 0)
-	avatar = models.ImageField(upload_to = get_upload_url , default = '/static/UserProfile/defaultProfileImage.png' )
-
-
-
-def create_user_profile(sender , **kwargs):
-	if kwargs['created']:
-		profile = UserProfile.objects.create(user = kwargs['instance'])
-
-
-post_save.connect(create_user_profile, sender = User)
+	
