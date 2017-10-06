@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^user/' , include('login_register.urls')),
     url(r'^otp/' , include('OTP.urls')),
     url(r'^sos/' , include('SOS.urls')),
+    url(r'^inventory/' , include('Inventory.urls')),
     url(r'^appointment/' , include('Appointment.urls')),
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

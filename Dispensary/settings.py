@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'SOS',
     'OTP',
     'Appointment',
+    'Inventory',
 ]
 
 MIDDLEWARE_CLASSES = [

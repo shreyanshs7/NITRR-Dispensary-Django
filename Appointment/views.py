@@ -4,6 +4,7 @@ from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from .models import *
+from Inventory.models import *
 from login_register.models import *
 
 # Create your views here.
@@ -41,7 +42,9 @@ def show_appointment(request):
 
 	user_obj = UserDetail.objects.all()
 
-	return render(request,'Medz.html',{'users' : user_obj , 'appointments' : appointment_obj})
+	medicines = Medicins.objects.all()
+
+	return render(request,'Medz.html',{'users' : user_obj , 'appointments' : appointment_obj, 'medicines': medicines})
 
 
 
