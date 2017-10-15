@@ -126,9 +126,11 @@ def register(request):
 def detail(request):
 	if request.method == "POST":
 		
-		name = request.POST.get('user')
+		user_id = request.POST.get('user_id')
 		
-		user_details = AppointmentDetail.objects.filter(username=name)
+		user_obj = UserDetail.objects.get(id=user_id)
+
+		user_details = AppointmentDetail.objects.filter(username=user_obj)
 
 
 

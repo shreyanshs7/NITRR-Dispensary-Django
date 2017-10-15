@@ -35,8 +35,9 @@
 
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     </head>
-    <body>
+    <body style="font-family: 'Raleway', sans-serif;">
       <!--Import jQuery before materialize.js-->
       <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
       <script type="text/javascript" src="/static/js/materialize.min.js"></script>
@@ -50,7 +51,7 @@
 
       <div class="row">
         <nav class="nav-extended grey darken-3">
-          <div class="nav-wrapper"><a href="#" class="brand-logo" style="padding-left: 50px">MEDZ</a> <a href="#" data-activates="mobile-demo" class="button-collapse"><em class="material-icons">menu</em></a>
+          <div class="nav-wrapper"><a href="#" class="brand-logo" style="padding-left: 50px"><strong>NIT-CARE</strong></a> <a href="#" data-activates="mobile-demo" class="button-collapse"><em class="material-icons">menu</em></a>
             <ul class="right hide-on-med-and-down">
               <li><a href="#">Home</a></li>
               <li><a href="#">About</a></li>
@@ -65,11 +66,9 @@
           <div class="nav-content">
               <ul class="tabs tabs-transparent">
                 
-                <li class="tab col m3"><a href="#FB">Feedback <span class="new badge green">5</span></a></li>
-                
-                <li class="tab col m3"><a href="#Inv">Inventory</a></li>
-                <li class="tab col m3"><a href="#Appointments">Appointments <span class="new badge red">4</span></a></li>
-                <li class="tab col m3"><a href="#Users">Users</a></li>
+                <li class="tab col m4"><a href="#Inv">Inventory</a></li>
+                <li class="tab col m4"><a href="#Appointments">Appointments </a></li>
+                <li class="tab col m4"><a href="#Users">Users</a></li>
               </ul>
           </div>
         </nav>
@@ -77,15 +76,9 @@
 
 
 
-      <div id="FB" class="col s12" class="container">
-          <h1>Feedback</h1>
-      </div>
-
-
-
-      <div id="Inv" class="col s12" class="container">
+      <div id="Inv" class="col s12 container">
         <!-- Element Showed -->
-        <a id="inventory_floating" class="waves-effect waves-light btn btn-floating" href="#inventory_add_modal" ><i class="material-icons">add</i></a>
+        <a id="inventory_floating" class="waves-effect waves-light btn-large btn-floating" href="#inventory_add_modal" ><i class="material-icons">add</i></a>
         <div class="row">
           {% for medicine in medicines %}
             <div class="col s12 m3">
@@ -112,7 +105,7 @@
               <h4>Update Quantity</h4>
               <p id="medicine_update_name"></p>
               <br>
-              <input type="hidden" id="medicine_update_id"name="medicine_id">
+              <input type="hidden" id="medicine_update_id" name="medicine_id">
                 <div class="row">
                   <div class="input-field col s4">
                     <input placeholder="New Quantity" id="medicine_update_quantity" type="text" class="validate" name="medicine_quantity">
@@ -120,30 +113,31 @@
                   </div>
                   <div class="input-field col s4">
                       <input placeholder="New Price" id="medicine_update_price" type="text" class="validate" name="medicine_price">
-                      <label for="first_name">Updated Quantity</label>
+                      <label for="first_name">Updated Price</label>
                   </div>
                 </div>
               
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="padding: 20px;">
                 <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
-                <button value="submit" class="modal-action modal-close waves-effect waves-green btn-flat ">Update</button>
+                <button value="submit" class="modal-action modal-close waves-effect waves-green btn-flat " >Update</button>
             </div>
         </form>
       </div>
 
 
 
-      <div id="Users" class="col s12" class="container">
+      <div id="Users" class="col s12 container">
        
-        <ul class="collection" id="user">
+        <ul class="collection" id="user" >
+       
           {% for user in users %}
           <li class="collection-item avatar">
               <i class="material-icons circle">person</i>
-              <span class="title">{{ user.name }} </span>
-              <button id="users_container_button" class="right btn green" value="{{ user.username }}">Details</button>
-              <p>{{ user.age }} <br>
-
+              <span class="title"><strong>{{ user.name }}</strong> </span>
+              <a href="#" class="right btn green" onclick="detail( {{ user.id }} )">Details</a>
+              <p>{{ user.age }}
+                 {{ user.blood }} <br>
                   {{ user.mobile_number }}
 
               </p>
@@ -212,11 +206,27 @@
       -->
 
 
-      <div id="Appointments" class="col s12" class="container">
+      <div id="Appointments" class="col s12 container" >
       
         <div class="row">
         {% for app in appointments %}
-
+        
+          {% if app.issue_type == 'EG' or app.issue_type == 'Emergency' %}
+          <a class="modal-trigger" href="#detail-{{ app.id }}">
+            <div class="col s12 m3">
+              <div class="card red darken-3 hoverable">
+                <div class="card-content white-text">
+                  <span class="card-title"><strong>{{ app.name }}</strong></span>
+                  <p><br></p>
+                  <p><strong>{{ app.issue_type }}</strong></p>
+                  <p><br></p>
+                  <p><h5>{{ app.medical_issue }}</h5></p>
+                </div>
+              </div>
+            </div>
+          </a>
+          {% endif %}
+          {% if app.issue_type == 'RG' or app.issue_type == 'Regular' %}
           <a class="modal-trigger" href="#detail-{{ app.id }}">
             <div class="col s12 m3">
               <div class="card blue darken-3 hoverable">
@@ -230,6 +240,7 @@
               </div>
             </div>
           </a>
+          {% endif %}
          {% endfor %} 
         </div>
              
@@ -267,7 +278,7 @@
 
           </div>
           <div class="modal-footer">
-            <!-- <a href="#treated" class="modal-action modal-close waves-effect waves-green btn-flat ">Mark as Treated</a> -->
+            <a href="#treated" onclick="treated({{ app.id }})" class="modal-action modal-close waves-effect waves-green btn-flat ">Mark as Treated</a>
             <!-- <a href="#proceed" class="modal-trigger modal-action modal-close waves-effect waves-green btn-flat ">Cancel Appointment</a> -->
             <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
           </div>
@@ -354,68 +365,18 @@ $(document).ready(function(){
 
 });
 
-// function LoadDetail(data){
-//   $.ajax({
-//     type : 'POST',
-//     url : '/user/detail',
-//     data : {
-//       user : data
-//     },
 
-//     success : function(data){
-//       $("#user").hide();
-//       $("#user_show").show();
+function detail(id){
 
+  console.log(id);
 
-
-//     },
-//   });
-// }
-
-function CLOSE(){
-$("#user").show();
-
-  $("#user_show").hide();
-}
-
-function update_medicine(id){
   var csrfmiddlewaretoken = $("input[name=csrfmiddlewaretoken]").val();
-  $.ajax({
-    type: 'POST',
-    url: '/inventory/get_medicine_detail',
-    data : {
-      id : id,
-      csrfmiddlewaretoken : csrfmiddlewaretoken
-    },
-    success : function(data){
-      if(data.success == true){
-        console.log(data.medicine);
-        $('#medicine_update_name').html(data.medicine.name);
-        $('#medicine_update_quantity').val(data.medicine.quantity);
-        $('#medicine_update_price').val(data.medicine.price);
-        $('#medicine_update_id').val(id);
-        $('#medicine_update_modal').modal('open');
-      }
-    },
-    error: function(){
-      alert('Sorry an error occured');
-    }
-  });
-  // alert(id);
-}
-
-$("#users_container_button").click(function(e){
-
-  e.preventDefault();
-
-  var user = $(this).val();
-  var csrfmiddlewaretoken = $("input[name=csrfmiddlewaretoken]").val();
-  console.log(user);
+  
  $.ajax({
     type : 'POST',
     url : '/user/detail/',
     data : {
-      user : user,
+      user_id : id ,
       csrfmiddlewaretoken : csrfmiddlewaretoken
     },
 
@@ -448,7 +409,79 @@ $("#users_container_button").click(function(e){
     },
   }); 
 
-});
+}
+// function LoadDetail(data){
+//   $.ajax({
+//     type : 'POST',
+//     url : '/user/detail',
+//     data : {
+//       user : data
+//     },
+
+//     success : function(data){
+//       $("#user").hide();
+//       $("#user_show").show();
+
+
+
+//     },
+//   });
+// }
+
+function treated(id){
+var csrfmiddlewaretoken = $("input[name=csrfmiddlewaretoken]").val();
+  $.ajax({
+    type : 'POST',
+    url : '/appointment/treated/',
+    data : {
+      app_id : id,
+      csrfmiddlewaretoken : csrfmiddlewaretoken
+    },
+    success : function(data){
+      document.location.reload(true);
+      console.log(data);
+    },
+    error : function(){
+      alert("Sorry an error occured");
+    }
+  });
+
+
+}
+
+function CLOSE(){
+$("#user").show();
+
+  $("#user_show").hide();
+}
+
+function update_medicine(id){
+  var csrfmiddlewaretoken = $("input[name=csrfmiddlewaretoken]").val();
+  $.ajax({
+    type: 'POST',
+    url: '/inventory/get_medicine_detail',
+    data : {
+      id : id,
+      csrfmiddlewaretoken : csrfmiddlewaretoken
+    },
+    success : function(data){
+      if(data.success == true){
+        console.log(data.medicine);
+        $('#medicine_update_name').html(data.medicine.name);
+        $('#medicine_update_quantity').val(data.medicine.quantity);
+        $('#medicine_update_price').val(data.medicine.price);
+        $('#medicine_update_id').val(id);
+        $('#medicine_update_modal').modal('open');
+      }
+    },
+    error: function(){
+      alert('Sorry an error occured..!!');
+    }
+  });
+  // alert(id);
+}
+
+
 
 
 </script>

@@ -6,4 +6,7 @@ from django.contrib import admin
 from .models import Medicins
 
 # Register your models here.
-admin.site.register(Medicins)
+class MedicinsAdmin(admin.ModelAdmin):
+	list_display = ['name','price','quantity']
+
+admin.site.register(Medicins,MedicinsAdmin)

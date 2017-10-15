@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'OTP',
     'Appointment',
     'Inventory',
+    'django_filters',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -136,3 +137,9 @@ MEDIA_URL = '/media/'
 LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = '/login_check'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'shreyanshss7@gmail.com'
+EMAIL_HOST_PASSWORD = 'shreyanshthess7'
