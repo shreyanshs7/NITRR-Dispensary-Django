@@ -100,24 +100,31 @@ def register(request):
 			sender_id = "CodeCSE"
 			otp = random.randint(2000,9999)
 
-			send_otp_url = "https://control.msg91.com/api/sendotp.php?authkey="+auth_key+"&mobile=91"+str(mobile_number)+"&message=Your%20otp%20is%20"+str(otp)+"&sender="+sender_id+"&otp="+str(otp)+""
+			try :
+				send_otp_url = "https://control.msg91.com/api/sendotp.php?authkey="+auth_key+"&mobile=91"+str(mobile_number)+"&message=Your%20otp%20is%20"+str(otp)+"&sender="+sender_id+"&otp="+str(otp)+""
 
-			response = urllib2.urlopen(send_otp_url).read()
+				response = urllib2.urlopen(send_otp_url).read()
 
 
 
-			jwt_data = {
-				'username' : username,
-				'mobile_number' : mobile_number
-			}
+				jwt_data = {
+					'username' : username,
+					'mobile_number' : mobile_number
+				}
 
-			token = jwt.encode(jwt_data , SECRET_KEY , algorithm='HS256' )
+				token = jwt.encode(jwt_data , SECRET_KEY , algorithm='HS256' )
 
-			data = {
-				'success' : True ,
-				'message' : "User registered",
-				'token' : token
-			}
+				data = {
+					'success' : True ,
+					'message' : "User registered",
+					'token' : token
+				}
+			except Exception as e:
+
+				data = {
+					'success' : False,
+					'message' : "Some error occured"
+				}	
 
 			return JsonResponse(data,safe=False)
 
@@ -150,7 +157,33 @@ def detail(request):
 
 
 
-				
+
+def users_api(request):
+
+	users_obj = user_obj = UserDetail.objects.all()
+
+	users_list = []
+
+	for user in user_obj:
+
+		temp_data = {
+			"name" : user.name,
+			"username" : user.username,
+			"mobile" : user.mobile_number,
+			"blood" : user.blood,
+			"email" : user.email
+
+		}
+
+		users_list.append(temp_data)
+		temp_data = {}
+
+	data = {
+		"success" : True,
+		"users_list" : users_list
+	}	 
+
+	return JsonResponse(data,safe=False)				
 		
 		
 

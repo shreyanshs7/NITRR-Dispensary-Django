@@ -7,5 +7,6 @@ urlpatterns = [
 		url(r'^register/$' , register , name = 'register'),
 		url(r'^detail/$' , detail , name = 'detail'),
 		url(r'^login/', login , name='login'),
+		url(r'^api/$' , users_api)
 		#url(r'^login_check/', login_check , name='login_check'),
 ]

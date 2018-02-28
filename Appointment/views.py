@@ -30,32 +30,41 @@ def create_appointment(request):
 
 		username = jwt_data['username']
 
-		user_obj = UserDetail.objects.get(username=username)
+		try:
 
+			user_obj = UserDetail.objects.get(username=username)
+
+			
+
+			if issue_type == 'Regular':
+				issue_type = 'Regular'
+
+			if issue_type == 'Emergency':
+				issue_type = 'Emergency'
+				
+				
+			appointment_obj = AppointmentDetail.objects.create(
+				name=name,
+				username=user_obj,
+				medical_issue=medical_issue,
+				issue_type=issue_type
+				)
+
+			appointment_obj.save()
+
+			data = {
+			'success' : True ,
+			'message' : "Appointment made"
+			}
+
+			send_mail('Appointment Confirmation','Your appointment has been made', settings.EMAIL_HOST_USER , [str(user_obj.email)] , fail_silently=False)
 		
+		except Exception as e:
+			data = {
+				'success' : False,
+				'message' : "Username doesnot exist"
+			}
 
-		if issue_type == 'Regular':
-			issue_type = 'Regular'
-
-		if issue_type == 'Emergency':
-			issue_type = 'Emergency'
-			
-			
-		appointment_obj = AppointmentDetail.objects.create(
-			name=name,
-			username=user_obj,
-			medical_issue=medical_issue,
-			issue_type=issue_type
-			)
-
-		appointment_obj.save()
-
-		data = {
-		'success' : True ,
-		'message' : "Appointment made"
-		}
-
-		send_mail('Appointment Confirmation','Your appointment has been made', settings.EMAIL_HOST_USER , [str(user_obj.email)] , fail_silently=False)
 
 		return JsonResponse(data,safe=False)
 
@@ -70,23 +79,82 @@ def show_appointment(request):
 	return render(request,'Medz.html',{'users' : user_obj , 'appointments' : appointment_obj, 'medicines': medicines})
 
 @csrf_exempt
-def treated(request):
+def treated(request,id):
+		try:
 
-	if request.method == "POST":
+			appointment_obj = AppointmentDetail.objects.get(id=id)
 
-		app_id = request.POST.get('app_id')
+			appointment_obj.treated = True
 
-		appointment_obj = AppointmentDetail.objects.get(id=app_id)
+			appointment_obj.save()
 
-		appointment_obj.treated = True
+			data = {
+			"success": True,
+			"message" : "Patient Treated"
+			}
+		except Exception as e:
 
-		appointment_obj.save()
+			data = {
+				'success' : False,
+				'message' : "Appointment doesnot exist"
+			}	
 
-		return HttpResponse("Appointment treated")
+		return JsonResponse(data,safe=False)
 
 
+def appointment_api(request):
+	
+	appointment_obj = AppointmentDetail.objects.all()
+
+	appointment_list = []
+
+	for app in appointment_obj:
+
+		temp_data = {
+			"id" : app.id,
+			"name" : app.name,
+			"medical_issue" : app.medical_issue,
+			"issue_type" : app.issue_type,
+			"date" : app.date,
+			"time" : app.time,
+			"treated" : app.treated
+
+		}
+
+		appointment_list.append(temp_data)
+		temp_data = {}
 
 
+	data = {
+		"success" : True,
+		"appointment_list" : appointment_list
+	}	
+
+	return JsonResponse(data,safe=False)
+
+def get_appointment_details(request,id):
+	
+	appointment_obj = AppointmentDetail.objects.get(id=id)
+
+	appointment_detail = {
+
+			"id" : appointment_obj.id,
+			"name" : appointment_obj.name,
+			"medical_issue" : appointment_obj.medical_issue,
+			"issue_type" : appointment_obj.issue_type,
+			"date" : appointment_obj.date,
+			"time" : appointment_obj.time,
+			"treated" : appointment_obj.treated
+
+	}
+
+	data = {
+	"success" : True,
+	"appointment_detail" : appointment_detail
+	}
+
+
+	return JsonResponse(data,safe=False)
 
 
 
