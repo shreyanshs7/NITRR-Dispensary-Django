@@ -1,0 +1,1 @@
+web: gunicorn Dispensary.wsgi --log-file -
