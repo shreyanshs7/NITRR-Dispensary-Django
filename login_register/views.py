@@ -155,7 +155,32 @@ def detail(request):
 
 		return JsonResponse(user_details_api,safe=False)
 
+@csrf_exempt
+def detail_angular(request,id):
+		user_obj = UserDetail.objects.get(id=id)
 
+		user_details = AppointmentDetail.objects.filter(username=user_obj)
+
+
+
+		user_details_json = serializers.serialize("json",user_details)
+		user_details_data = json.loads(user_details_json)
+		user_details_list = []
+
+
+		for data in user_details_data:
+			user_details_list.append(data['fields'])
+
+		user_details_api = json.dumps(user_details_list)	
+		
+		print(user_details_api)	
+
+		data = {
+		"success":True,
+		"user_detail" : user_details_list
+		}
+
+		return JsonResponse(data,safe=False)
 
 
 def users_api(request):
@@ -167,6 +192,7 @@ def users_api(request):
 	for user in user_obj:
 
 		temp_data = {
+			"id" : user.id,
 			"name" : user.name,
 			"username" : user.username,
 			"mobile" : user.mobile_number,
