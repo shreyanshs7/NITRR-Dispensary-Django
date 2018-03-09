@@ -30,40 +30,35 @@ def create_appointment(request):
 
 		username = jwt_data['username']
 
-		try:
 
-			user_obj = UserDetail.objects.get(username=username)
+
+		user_obj = UserDetail.objects.get(username=username)
 
 			
 
-			if issue_type == 'Regular':
-				issue_type = 'Regular'
+		if issue_type == 'Regular':
+			issue_type = 'Regular'
 
-			if issue_type == 'Emergency':
-				issue_type = 'Emergency'
+		if issue_type == 'Emergency':
+			issue_type = 'Emergency'
 				
 				
-			appointment_obj = AppointmentDetail.objects.create(
+		appointment_obj = AppointmentDetail.objects.create(
 				name=name,
 				username=user_obj,
 				medical_issue=medical_issue,
 				issue_type=issue_type
 				)
 
-			appointment_obj.save()
+		appointment_obj.save()
 
-			data = {
+		data = {
 			'success' : True ,
 			'message' : "Appointment made"
-			}
+		}
 
-			send_mail('Appointment Confirmation','Your appointment has been made', settings.EMAIL_HOST_USER , [str(user_obj.email)] , fail_silently=False)
-		
-		except Exception as e:
-			data = {
-				'success' : False,
-				'message' : "Username doesnot exist"
-			}
+		send_mail('Appointment Confirmation','Your appointment has been made', settings.EMAIL_HOST_USER , [str(user_obj.email)] , fail_silently=False)
+	
 
 
 		return JsonResponse(data,safe=False)
