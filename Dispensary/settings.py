@@ -144,5 +144,5 @@ LOGIN_REDIRECT_URL = '/login_check'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'shreyanshss7@gmail.com'
-EMAIL_HOST_PASSWORD = 'shreyanshthess7'
+EMAIL_HOST_USER = 'tmail6336@gmail.com'
+EMAIL_HOST_PASSWORD = 'testmail12345'

@@ -57,7 +57,7 @@ def create_appointment(request):
 			'message' : "Appointment made"
 		}
 
-		send_mail('Appointment Confirmation','Your appointment has been made', settings.EMAIL_HOST_USER , [str(user_obj.email)] , fail_silently=False)
+		#send_mail('Appointment Confirmation','Your appointment has been made', settings.EMAIL_HOST_USER , [str(user_obj.email)] , fail_silently=False)
 	
 
 
