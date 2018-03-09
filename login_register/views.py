@@ -64,7 +64,7 @@ def login(request):
 @csrf_exempt
 def register(request):
 	if request.method == "POST":
-
+		print(request.POST)	
 		name = request.POST.get('name')
 		username = request.POST.get('username')
 		mobile_number = request.POST.get('mobile_number')
@@ -105,7 +105,7 @@ def register(request):
 
 				response = urllib2.urlopen(send_otp_url).read()
 
-
+				
 
 				jwt_data = {
 					'username' : username,
