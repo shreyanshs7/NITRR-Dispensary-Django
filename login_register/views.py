@@ -96,7 +96,7 @@ def register(request):
 			user_obj.save()
 
 
-			auth_key = "176332A81pH4L759c8aad6"
+			auth_key = "206544Af6PK9Fszq5abc9a3c"
 			sender_id = "CodeCSE"
 			otp = random.randint(2000,9999)
 
@@ -167,6 +167,7 @@ def users_api(request):
 	for user in user_obj:
 
 		temp_data = {
+			"id" : user.id,
 			"name" : user.name,
 			"username" : user.username,
 			"mobile" : user.mobile_number,

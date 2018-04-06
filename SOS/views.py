@@ -14,7 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 def send_sos(request):
 	if request.method == "POST":
 		print(request.POST)
-		auth_keys = "176332A81pH4L759c8aad6"
+		auth_keys = "206544Af6PK9Fszq5abc9a3c"
 
 		token = request.POST.get('token')
 		address = request.POST.get('address')

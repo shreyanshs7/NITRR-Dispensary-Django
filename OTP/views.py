@@ -11,7 +11,7 @@ import json
 def send_otp(request):
 	if request.method == "POST":
 
-		auth_key = "176332A81pH4L759c8aad6"
+		auth_key = "206544Af6PK9Fszq5abc9a3c"
 		sender_id = "CodeCSE"
 		mobile_number = request.POST.get("number")
 		otp = random.randint(2000,9999)
@@ -42,7 +42,7 @@ def verify_otp(request):
 	if request.method == "POST":
 
 		otp = request.POST.get("otp")
-		auth_key = "176332A81pH4L759c8aad6"
+		auth_key = "206544Af6PK9Fszq5abc9a3c"
 		mobile_number = request.POST.get("number")
 
 		print(mobile_number)
