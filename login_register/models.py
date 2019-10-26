@@ -11,7 +11,7 @@ class UserDetail(models.Model):
 	username = models.CharField(max_length=120)
 	mobile_number = models.IntegerField()
 	blood = models.CharField(max_length=12,default="A+")
-	email = models.EmailField(default="shreyanshss7@gmail.com")
+	email = models.EmailField(default="")
 
 	def __str__(self):
 		return self.username
